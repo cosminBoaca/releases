@@ -28,7 +28,19 @@ namespace CGAL {
 template < class R >
 class Projection_traits_xz_3
   : public internal::Projection_traits_3<R,1>
-{};
+{
+  public:
+    typedef typename internal::Cartesian_const_projection_iterator<R, 1> Cartesian_const_iterator_d;
+    typedef typename R::Point_3 Point_d;
+    typedef internal::Construct_cartesian_const_projection_iterator<R, 1> Construct_cartesian_const_iterator_d;
+    typedef typename R::FT FT;
+    typename R::FT x(const Point_d& p) { return internal::Projection_traits_3<R, 1>::x(p); }
+    typename R::FT y(const Point_d& p) { return internal::Projection_traits_3<R, 1>::y(p); }  
+  
+    Construct_cartesian_const_iterator_d construct_cartesian_const_iterator_d_object() const {
+       return Construct_cartesian_const_iterator_d();
+    }  
+};
 
 } //namespace CGAL
 
