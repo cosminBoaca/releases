@@ -91,7 +91,7 @@ struct Projector<R,2>
   static const int y_index=1;  
 };
   
-template < typename R , int dim >
+template <typename R , int dim>
 class Cartesian_const_projection_iterator
 {
   typedef typename R::Cartesian_const_iterator_3      iterator_type;
@@ -109,37 +109,17 @@ public:
   Cartesian_const_projection_iterator(iterator_type it, int offset)
     : _it(it), offset(offset) {}
 
-  self& operator++() { 
-    ++_it; ++offset;
-    return *this; 
-  }
+  self& operator++() { ++_it; ++offset; return *this; }
 
-  self  operator++(int) {
-    self tmp = *this; 
-    ++_it; ++offset;
-    return tmp;
-  }
+  self  operator++(int) { self tmp = *this; ++_it; ++offset; return tmp; }
 
-  self& operator--() {
-    --_it; --offset;
-    return *this; 
-  }
+  self& operator--() { --_it; --offset; return *this; }
 
-  self  operator--(int) {
-    self tmp = *this;
-    --_it; --offset;
-    return tmp;
-  }
+  self  operator--(int) { self tmp = *this; --_it; --offset; return tmp; }
 
-  self& operator+=(difference_type i) {
-    _it+=i; offset += i; 
-    return *this; 
-  }
+  self& operator+=(difference_type i) { _it+=i; offset += i; return *this; }
 
-  self& operator-=(difference_type i) { 
-    _it-=i; offset -= i; 
-    return *this; 
-  }
+  self& operator-=(difference_type i) { _it-=i; offset -= i; return *this; }
 
   self operator+(difference_type i) const
   { self tmp=*this; return tmp += i; }
@@ -174,7 +154,8 @@ class Construct_cartesian_const_projection_iterator
 {
   typedef typename K::Point_3          Point_3;
   typedef typename K::Vector_3         Vector_3;
-  typedef typename internal::Cartesian_const_projection_iterator<K, dim> Cartesian_const_iterator_3;
+  typedef typename internal::Cartesian_const_projection_iterator<K, dim>
+  Cartesian_const_iterator_3;
 
   public:
     typedef Cartesian_const_iterator_3 result_type;
