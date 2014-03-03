@@ -31,12 +31,12 @@ class Projection_traits_yz_3
 {
 
   public:
-    typedef typename internal::Cartesian_const_projection_iterator<R, 0> Cartesian_const_iterator_d;
+    typedef boost::permutation_iterator<typename R::Cartesian_const_iterator_3, const int*>
+    Cartesian_const_iterator_d;
     typedef typename R::Point_3 Point_d;
     typedef internal::Construct_cartesian_const_projection_iterator<R, 0> Construct_cartesian_const_iterator_d;
     typedef typename R::FT FT;
-    typename R::FT x(const Point_d& p) { return internal::Projection_traits_3<R, 0>::x(p); }   
-    typename R::FT y(const Point_d& p) { return internal::Projection_traits_3<R, 0>::y(p); }   
+
     Construct_cartesian_const_iterator_d construct_cartesian_const_iterator_d_object() const {
        return Construct_cartesian_const_iterator_d();
     }  

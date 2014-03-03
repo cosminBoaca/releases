@@ -29,17 +29,15 @@
 
 #include <CGAL/Kernel/global_functions_2.h>
 
-#include <iterator>
+#include <boost/iterator/permutation_iterator.hpp>
+
 namespace CGAL { 
 
 namespace internal {
 
 //project Point_3 along coordinate dim
 template <class R,int dim>
-struct Projector{
-  static const int x_index = -1;
-  static const int y_index = -1;
-};
+struct Projector;
 
 
 //project onto yz
@@ -91,97 +89,44 @@ struct Projector<R,2>
   static const int y_index=1;  
 };
   
-template <typename R , int dim>
-class Cartesian_const_projection_iterator
-{
-  typedef typename R::Cartesian_const_iterator_3      iterator_type;
-  typedef Cartesian_const_projection_iterator self;
-  int offset;
-  
-public:
-  typedef std::random_access_iterator_tag         iterator_category;
-  typedef typename R::FT                  value_type;
-  typedef std::ptrdiff_t                  difference_type;
-  typedef const value_type*               pointer;
-  typedef const value_type&               reference;
-
-  Cartesian_const_projection_iterator() {}
-  Cartesian_const_projection_iterator(iterator_type it, int offset)
-    : _it(it), offset(offset) {}
-
-  self& operator++() { ++_it; ++offset; return *this; }
-
-  self  operator++(int) { self tmp = *this; ++_it; ++offset; return tmp; }
-
-  self& operator--() { --_it; --offset; return *this; }
-
-  self  operator--(int) { self tmp = *this; --_it; --offset; return tmp; }
-
-  self& operator+=(difference_type i) { _it+=i; offset += i; return *this; }
-
-  self& operator-=(difference_type i) { _it-=i; offset -= i; return *this; }
-
-  self operator+(difference_type i) const
-  { self tmp=*this; return tmp += i; }
-  self operator-(difference_type i) const
-  { self tmp=*this; return tmp -= i; }
-
-  difference_type operator-(self x) const { return _it-x._it; }
-
-  value_type operator*() const { 
-      if(offset != Projector<R, dim>::x_index && offset != Projector<R, dim>::y_index)
-        return value_type(0);
-      return value_type(*_it); 
-  }
-
-  value_type operator[](difference_type i) const { 
-    if(i != Projector<R, dim>::x_index && i != Projector<R, dim>::y_index)
-      return value_type(0);
-    return *(*this + i);  
-  }
-
-  bool operator==(const self& x) const { return _it==x._it ; }
-  bool operator!=(const self& x) const { return ! (*this==x); }
-  bool operator<(const self& x) const { return (x - *this) > 0; }
-
-private:
-   iterator_type _it;
-};
-
-
 template <typename K, int dim>
 class Construct_cartesian_const_projection_iterator
 {
   typedef typename K::Point_3          Point_3;
   typedef typename K::Vector_3         Vector_3;
-  typedef typename internal::Cartesian_const_projection_iterator<K, dim>
+  typedef typename K::Cartesian_const_iterator_3 Cartesian_iterator;
+  typedef boost::permutation_iterator<Cartesian_iterator, const int*> 
   Cartesian_const_iterator_3;
+  int perm[2];
 
   public:
     typedef Cartesian_const_iterator_3 result_type;
 
+    Construct_cartesian_const_projection_iterator()
+        : perm()  { perm[0] = Projector<K, dim>::x_index; perm[1] = Projector<K, dim>::y_index; }  
+
     Cartesian_const_iterator_3
     operator()( const Point_3& p) const
     {
-      return Cartesian_const_iterator_3(p.rep().cartesian_begin(), 0);
+      return boost::make_permutation_iterator(p.rep().cartesian_begin(), perm);
     }
 
     Cartesian_const_iterator_3
     operator()( const Point_3& p, int) const
     {
-      return Cartesian_const_iterator_3(p.rep().cartesian_end(), 3); 
+      return boost::make_permutation_iterator(p.rep().cartesian_begin(), perm + 2);
     }
 
     Cartesian_const_iterator_3
     operator()( const Vector_3& v) const
     {
-      return Cartesian_const_iterator_3(v.rep().cartesian_begin(), 0);
+      return boost::make_permutation_iterator(v.rep().cartesian_begin(), perm);
     }
 
     Cartesian_const_iterator_3
     operator()( const Vector_3& v, int) const
     {
-     return Cartesian_const_iterator_3(v.rep().cartesian_end(), 3); 
+      return boost::make_permutation_iterator(v.rep().cartesian_begin(), perm + 2);
     }
 };
 
