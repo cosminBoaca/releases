@@ -39,6 +39,7 @@ namespace internal {
 template <class R,int dim>
 struct Projector;
 
+
 //project onto yz
 template <class R>
 struct Projector<R,0>
@@ -55,6 +56,7 @@ struct Projector<R,0>
   static const int x_index=1;
   static const int y_index=2;
 };
+
 //project onto xz
 template <class R>
 struct Projector<R,1>
@@ -70,6 +72,7 @@ struct Projector<R,1>
   static const int x_index=0;
   static const int y_index=2;  
 };
+
 //project onto xy
 template <class R>
 struct Projector<R,2>
@@ -94,7 +97,7 @@ class Construct_cartesian_const_projection_iterator
   typedef typename K::Cartesian_const_iterator_3 Cartesian_iterator;
   typedef boost::permutation_iterator<Cartesian_iterator, const int*> 
   Cartesian_const_iterator_3;
-  int perm[2];
+  int perm[3];
 
   public:
     typedef Cartesian_const_iterator_3 result_type;
