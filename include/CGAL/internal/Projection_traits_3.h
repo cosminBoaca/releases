@@ -56,7 +56,6 @@ struct Projector<R,0>
   static const int x_index=1;
   static const int y_index=2;
 };
-
 //project onto xz
 template <class R>
 struct Projector<R,1>
@@ -72,7 +71,6 @@ struct Projector<R,1>
   static const int x_index=0;
   static const int y_index=2;  
 };
-
 //project onto xy
 template <class R>
 struct Projector<R,2>
