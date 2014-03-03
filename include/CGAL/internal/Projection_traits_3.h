@@ -39,7 +39,6 @@ namespace internal {
 template <class R,int dim>
 struct Projector;
 
-
 //project onto yz
 template <class R>
 struct Projector<R,0>

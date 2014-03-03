@@ -22,6 +22,7 @@
 #define CGAL_PROJECTION_TRAITS_XY_3_H
 
 #include <CGAL/internal/Projection_traits_3.h>
+
 namespace CGAL { 
 
 template < class R >
