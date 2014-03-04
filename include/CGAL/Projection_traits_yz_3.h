@@ -29,14 +29,13 @@ template < class R >
 class Projection_traits_yz_3
   : public internal::Projection_traits_3<R,0>
 {
-
-  public:
-    typedef boost::permutation_iterator<typename R::Cartesian_const_iterator_3, const int*>
-    Cartesian_const_iterator_d;
-    typedef typename R::Point_3 Point_d;
-    typedef internal::Construct_cartesian_const_projection_iterator<R, 0> Construct_cartesian_const_iterator_d;
-    typedef typename R::FT FT;
-
+    typedef typename internal::Projection_traits_3<R, 0> base;
+ public:
+    typedef typename base::Cartesian_const_iterator_d Cartesian_const_iterator_d;
+    typedef typename base::Point_d Point_d;
+    typedef typename base::Construct_cartesian_const_iterator_d Construct_cartesian_const_iterator_d;
+    typedef typename base::FT FT;
+  
     Construct_cartesian_const_iterator_d construct_cartesian_const_iterator_d_object() const {
        return Construct_cartesian_const_iterator_d();
     }  

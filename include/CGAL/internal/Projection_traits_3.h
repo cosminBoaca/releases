@@ -39,11 +39,11 @@ namespace internal {
 template <class R,int dim>
 struct Projector;
 
-
 //project onto yz
 template <class R>
 struct Projector<R,0>
 {
+  typedef typename R::FT                      FT;
   typedef typename R::Less_y_3                Less_x_2;
   typedef typename R::Less_z_3                Less_y_2;
   typedef typename R::Compare_y_3             Compare_x_2;
@@ -89,46 +89,46 @@ struct Projector<R,2>
   static const int y_index=1;  
 };
   
-template <typename K, int dim>
+template <typename R, int dim>
 class Construct_cartesian_const_projection_iterator
 {
-  typedef typename K::Point_3          Point_3;
-  typedef typename K::Vector_3         Vector_3;
-  typedef typename K::Cartesian_const_iterator_3 Cartesian_iterator;
+  typedef typename R::Point_3          Point_3;
+  typedef typename R::Vector_3         Vector_3;
+  typedef typename R::Cartesian_const_iterator_3 Cartesian_iterator;
   typedef boost::permutation_iterator<Cartesian_iterator, const int*> 
   Cartesian_const_iterator_3;
-  int perm[3];
-
+  static const int indexes[2];
   public:
     typedef Cartesian_const_iterator_3 result_type;
-
-    Construct_cartesian_const_projection_iterator()
-        : perm()  { perm[0] = Projector<K, dim>::x_index; perm[1] = Projector<K, dim>::y_index; }  
 
     Cartesian_const_iterator_3
     operator()( const Point_3& p) const
     {
-      return boost::make_permutation_iterator(p.rep().cartesian_begin(), perm);
+      return boost::make_permutation_iterator(p.rep().cartesian_begin(), indexes );
     }
 
     Cartesian_const_iterator_3
     operator()( const Point_3& p, int) const
     {
-      return boost::make_permutation_iterator(p.rep().cartesian_begin(), perm + 2);
+      return boost::make_permutation_iterator(p.rep().cartesian_begin(), indexes + 2);
     }
 
     Cartesian_const_iterator_3
     operator()( const Vector_3& v) const
     {
-      return boost::make_permutation_iterator(v.rep().cartesian_begin(), perm);
+      return boost::make_permutation_iterator(v.rep().cartesian_begin(), indexes );
     }
 
     Cartesian_const_iterator_3
     operator()( const Vector_3& v, int) const
     {
-      return boost::make_permutation_iterator(v.rep().cartesian_begin(), perm + 2);
+      return boost::make_permutation_iterator(v.rep().cartesian_begin(), indexes + 2);
     }
 };
+
+template<class R, int dim>
+const int Construct_cartesian_const_projection_iterator<R, dim>::indexes[] = 
+  { Projector<R, dim>::x_index, Projector<R, dim>::y_index }; 
 
 template <class R,int dim>
 class Orientation_projected_3 
@@ -483,6 +483,12 @@ public:
   typedef typename Rp::Construct_scaled_vector_3              Construct_scaled_vector_2;
   typedef typename Rp::Construct_triangle_3                   Construct_triangle_2;
   typedef typename Rp::Construct_line_3                       Construct_line_2;
+
+  typedef typename R::Point_3                 Point_d;
+  typedef Construct_cartesian_const_projection_iterator<R, dim>
+  Construct_cartesian_const_iterator_d;
+  typedef boost::permutation_iterator<typename R::Cartesian_const_iterator_3, const int*>
+  Cartesian_const_iterator_d;
 
   struct Less_xy_2 {
     typedef bool result_type;
