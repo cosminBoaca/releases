@@ -484,11 +484,10 @@ public:
   typedef typename Rp::Construct_triangle_3                   Construct_triangle_2;
   typedef typename Rp::Construct_line_3                       Construct_line_2;
 
-  typedef typename R::Point_3                 Point_d;
   typedef Construct_cartesian_const_projection_iterator<R, dim>
-  Construct_cartesian_const_iterator_d;
+  Construct_cartesian_const_iterator_2;
   typedef boost::permutation_iterator<typename R::Cartesian_const_iterator_3, const int*>
-  Cartesian_const_iterator_d;
+  Cartesian_const_iterator_2;
 
   struct Less_xy_2 {
     typedef bool result_type;
