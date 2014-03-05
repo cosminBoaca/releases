@@ -27,7 +27,7 @@ namespace CGAL {
 
 template < class R >
 class Projection_traits_xy_3
-  : public internal::Projection_traits_3<R, 2>
+  : public internal::Projection_traits_3<R,2>
 {};
   
 } //namespace CGAL 
