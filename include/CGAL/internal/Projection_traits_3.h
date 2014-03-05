@@ -43,7 +43,6 @@ struct Projector;
 template <class R>
 struct Projector<R,0>
 {
-  typedef typename R::FT                      FT;
   typedef typename R::Less_y_3                Less_x_2;
   typedef typename R::Less_z_3                Less_y_2;
   typedef typename R::Compare_y_3             Compare_x_2;
