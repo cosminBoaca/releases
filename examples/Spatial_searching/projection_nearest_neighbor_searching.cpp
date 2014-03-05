@@ -1,7 +1,7 @@
 #include <CGAL/Simple_cartesian.h>
 #include <CGAL/point_generators_2.h>
 #include <CGAL/Orthogonal_k_neighbor_search.h>
-#include <CGAL/Search_traits_3.h>
+#include <CGAL/Search_traits_2.h>
 #include <CGAL/Projection_traits_xy_3.h>
 #include <CGAL/Projection_traits_xz_3.h>
 #include <CGAL/Projection_traits_yz_3.h>
@@ -11,9 +11,9 @@
 
 typedef CGAL::Simple_cartesian<double> K;
 typedef K::Point_3 Point_d;
-typedef CGAL::Projection_traits_xy_3<K> TreeTraitsXY;
-typedef CGAL::Projection_traits_xz_3<K> TreeTraitsXZ;
-typedef CGAL::Projection_traits_yz_3<K> TreeTraitsYZ;
+typedef CGAL::Search_traits_2< CGAL::Projection_traits_xy_3<K> > TreeTraitsXY;
+typedef CGAL::Search_traits_2< CGAL::Projection_traits_xz_3<K> > TreeTraitsXZ;
+typedef CGAL::Search_traits_2< CGAL::Projection_traits_yz_3<K> > TreeTraitsYZ;
 
 template<class ProjectionTraits>
 bool same_projection(const std::list<Point_d> &l1, const std::list<Point_d>& l2) { 
@@ -30,10 +30,11 @@ bool same_projection(const std::list<Point_d> &l1, const std::list<Point_d>& l2)
     while(coord_it1 != coord_end1) {
       if(*coord_it1 != *coord_it2)
         return false;
-      coord_it1++;
-      coord_it2++;
+      ++coord_it1;
+      ++coord_it2;
     } 
   } 
+  typename ProjectionTraits::Cartesian_const_iterator_d it;
   return true;
 } 
 
@@ -66,6 +67,7 @@ void test(unsigned int n, int x_idx, int y_idx, bool print_points = false) {
   create_points(p1, x_idx, y_idx, size);
   create_points(p2, x_idx, y_idx, size);
   create_points(ref, x_idx, y_idx, n);
+  
 
   typename CGAL::Orthogonal_k_neighbor_search<ProjectionTraits>::Tree 
       t1(p1.begin(), p1.end()), t2(p2.begin(), p2.end());
