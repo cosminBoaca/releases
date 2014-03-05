@@ -28,25 +28,7 @@ namespace CGAL {
 template < class R >
 class Projection_traits_xy_3
   : public internal::Projection_traits_3<R, 2>
-{
-    typedef typename internal::Projection_traits_3<R, 2> base;
- public:
-    typedef typename base::Cartesian_const_iterator_2 Cartesian_const_iterator_2;
-    typedef typename base::Point_2 Point_2;
-    typedef typename base::Construct_cartesian_const_iterator_2 Construct_cartesian_const_iterator_2;
-    typedef typename base::FT FT;
-
-    typedef typename R::Iso_rectangle_2 Iso_rectangle_2;
-    typedef typename R::Circle_2 Circle_2;
-
-    typedef typename R::Construct_min_vertex_2 Construct_min_vertex_2;
-    typedef typename R::Construct_max_vertex_2 Construct_max_vertex_2;
-    typedef typename R::Construct_center_2 Construct_center_2;
-    typedef typename R::Compute_squared_radius_2 Compute_squared_radius_2;
-
-    typedef typename R::Construct_iso_rectangle_2 Construct_iso_rectangle_2;
-    
-};
+{};
   
 } //namespace CGAL 
 

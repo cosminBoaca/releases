@@ -488,6 +488,12 @@ public:
   Construct_cartesian_const_iterator_2;
   typedef boost::permutation_iterator<typename R::Cartesian_const_iterator_3, const int*>
   Cartesian_const_iterator_2;
+  typedef typename R::Iso_rectangle_2 Iso_rectangle_2;
+  typedef typename R::Circle_2 Circle_2;
+  typedef typename R::Construct_min_vertex_2 Construct_min_vertex_2;
+  typedef typename R::Construct_max_vertex_2 Construct_max_vertex_2;
+  typedef typename R::Construct_center_2 Construct_center_2;
+  typedef typename R::Construct_iso_rectangle_2 Construct_iso_rectangle_2;
 
   struct Less_xy_2 {
     typedef bool result_type;
